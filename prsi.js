@@ -1,34 +1,3 @@
-var hra = new game(["Petr", "Osvald"]);
-hra.startGame();
-var karta = hra.players[0].cards[0]
-
-function shuffle(array) {
-var currentIndex = array.length, temporaryValue, randomIndex;
-
-// While there remain elements to shuffle...
-while (0 !== currentIndex) {
-
-  // Pick a remaining element...
-  randomIndex = Math.floor(Math.random() * currentIndex);
-  currentIndex -= 1;
-
-  // And swap it with the current element.
-  temporaryValue = array[currentIndex];
-  array[currentIndex] = array[randomIndex];
-  array[randomIndex] = temporaryValue;
-}
-
-return array;
-}
-
-
-
-
-
-
-
-
-
 function game(playerNames) {
   this.lastCardPlayed = undefined;
   this.playerNames = playerNames;
@@ -151,14 +120,14 @@ function card(color, value, deck) {
   this.image = color+"_"+value+".png";
 
   switch (this.value) {
-    case "eso":
+    case "ace":
       this.ability = function() {
         // Player that would play next, can't play
         this.skipTurn = true;
       }
       break;
 
-    case "top":
+    case "ober":
       this.ability = function(color) {
         this.deck.game.lastCardPlayed.color = color;
       }
@@ -204,41 +173,62 @@ function deck(game) {
     // Resets used cards and new cards
     this.usedCards = [];
     this.cards = [
-      new card("red", "7", this),
-      new card("balls", "7", this),
-      new card("green", "7", this),
+      new card("heart", "7", this),
+      new card("bell", "7", this),
+      new card("leaf", "7", this),
       new card("acorn", "7", this),
-      new card("red", "8", this),
-      new card("balls", "8", this),
-      new card("green", "8", this),
+      new card("heart", "8", this),
+      new card("bell", "8", this),
+      new card("leaf", "8", this),
       new card("acorn", "8", this),
-      new card("red", "9", this),
-      new card("balls", "9", this),
-      new card("green", "9", this),
+      new card("heart", "9", this),
+      new card("bell", "9", this),
+      new card("leaf", "9", this),
       new card("acorn", "9", this),
-      new card("red", "10", this),
-      new card("balls", "10", this),
-      new card("green", "10", this),
+      new card("heart", "10", this),
+      new card("bell", "10", this),
+      new card("leaf", "10", this),
       new card("acorn", "10", this),
-      new card("red", "bottom", this),
-      new card("balls", "bottom", this),
-      new card("green", "bottom", this),
-      new card("acorn", "bottom", this),
-      new card("red", "top", this),
-      new card("balls", "top", this),
-      new card("green", "top", this),
-      new card("acorn", "top", this),
-      new card("red", "king", this),
-      new card("balls", "king", this),
-      new card("green", "king", this),
+      new card("heart", "unter", this),
+      new card("bell", "unter", this),
+      new card("leaf", "unter", this),
+      new card("acorn", "unter", this),
+      new card("heart", "ober", this),
+      new card("bell", "ober", this),
+      new card("leaf", "ober", this),
+      new card("acorn", "ober", this),
+      new card("heart", "king", this),
+      new card("bell", "king", this),
+      new card("leaf", "king", this),
       new card("acorn", "king", this),
-      new card("red", "eso", this),
-      new card("balls", "eso", this),
-      new card("green", "eso", this),
-      new card("acorn", "eso", this),
+      new card("heart", "ace", this),
+      new card("bell", "ace", this),
+      new card("leaf", "ace", this),
+      new card("acorn", "ace", this),
     ];
 
     // Shuffles new cards
     this.cards = shuffle(this.cards);
   }
+}
+
+// Shuffle function
+
+function shuffle(array) {
+var currentIndex = array.length, temporaryValue, randomIndex;
+
+// While there remain elements to shuffle...
+while (0 !== currentIndex) {
+
+  // Pick a remaining element...
+  randomIndex = Math.floor(Math.random() * currentIndex);
+  currentIndex -= 1;
+
+  // And swap it with the current element.
+  temporaryValue = array[currentIndex];
+  array[currentIndex] = array[randomIndex];
+  array[randomIndex] = temporaryValue;
+}
+
+return array;
 }
