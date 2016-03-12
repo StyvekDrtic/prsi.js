@@ -3,15 +3,109 @@
   <head>
     <meta charset="utf-8">
     <title></title>
+    <link rel="stylesheet" href="master.css" charset="utf-8">
   </head>
   <body>
-By <a href="//commons.wikimedia.org/w/index.php?title=User:Moddin&amp;action=edit&amp;redlink=1" class="new" title="User:Moddin (page does not exist)">Moddin</a> - <span class="int-own-work" lang="en">Own work</span>, <a href="http://creativecommons.org/licenses/by-sa/3.0" title="Creative Commons Attribution-Share Alike 3.0">CC BY-SA 3.0</a>, https://commons.wikimedia.org/w/index.php?curid=9561634
-
+    <div id="userPanel">
+      <div id="addPlayer">
+        <h3>ADD PLAYER</h3>
+        <input placeholder="NAME" type="text">
+        <button id="addPlayerButton">ADD</button>
+        <button id="startGameButton">START GAME</button>
+      </div>
+      <div id="players">
+      </div>
+    </div>
+    <div id="deckPanel">
+      <div id="centerDeckPanel">
+        <img src="card_img/heart_ober.png" id="lastCard">
+        <img src="card_img/deck.png">
+        <button id="newGame">NEW GAME</button>
+        <p>Jirka's turn</p>
+      </div>
+    </div>
     <script src="prsi.js"></script>
+    <script src="//code.jquery.com/jquery-1.12.0.min.js"></script>
     <script>
-      var hra = new game(["Petr", "Osvald"]);
-      hra.startGame();
-      var karta = hra.players[0].cards[0]
+      var hra = new game();
+
+      $("#addPlayerButton").click(function() {
+        var name = $("#addPlayer input").val();
+
+          if (name.length == 0){
+            alert("Please set the name for the player");
+          }
+
+          else {
+            hra.playerNames.push(name);
+            updateGame();
+            $("#addPlayer input").val("");
+          }
+      });
+
+      $("#startGameButton").click(function() {
+        if (hra.playerNames.length < 2){
+          alert("Add more players");
+        }
+
+        else {
+          hra.startGame();
+          $("#addPlayerButton").prop('disabled', true);
+          $("#addPlayer input").prop('disabled', true);
+          $("#startGameButton").prop('disabled', true);
+          updateGame();
+        }
+      });
+
+      function updateGame() {
+
+        // It resets #userPanel
+        $( "#players" ).html("");
+
+        // It updates each player
+        for (var x = 0; x < hra.playerNames.length; x++) {
+
+          var playerName = hra.playerNames[x];
+
+          // If the game hasn't started yet
+          if (hra.players.length == 0){
+            $("#players").append('<div class="player"><h3>'+playerName+'</h3></div><br>');
+          }
+
+          // If the game has started
+          else {
+
+            // Getting index of current hand in game.players array
+            var indexOfCurrentPlayer = undefined;
+
+            for (var i = 0; i < hra.players.length; i++) {
+              if (hra.players[i].playerName == playerName){
+                indexOfCurrentPlayer = i;
+              }
+            }
+
+            // Creating an array of cards that player has in his hand
+            var cards = [];
+
+            for (var i = 0; i < hra.players[indexOfCurrentPlayer].cards.length; i++) {
+              cards.push(hra.players[indexOfCurrentPlayer].cards[i]);
+            }
+
+            var cardsHtml = "";
+
+            // For each card that player has in his hand
+            // it creates html_string and concats it into cardsHtml string
+            for (var i = 0; i < cards.length; i++) {
+              var card = cards[i];
+              var cardHtml = '<li class="card"><img src="card_img/'+card.image+'"><button>PLAY</button><p class="color">'+card.color+'</p><p class="value">'+card.value+'</p></li>';
+              cardsHtml = cardsHtml + cardHtml;
+            }
+
+            // It gets .player div into the page
+            $("#players").append('<div class="player"><h3>'+playerName+'</h3><button class="drawCard">DRAW</button><ul>'+cardsHtml+'</ul></div><br>');
+          }
+        }
+      }
     </script>
   </body>
 </html>

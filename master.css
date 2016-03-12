@@ -1,0 +1,80 @@
+body {
+  display: table;
+  background: #1DA07B;
+  width: 100%;
+  margin: 0;
+}
+
+button, input {
+  border: 3px solid #8C4616;
+  border-radius: 5px;
+  background: #AF451D;
+}
+
+ul {
+  padding: 0;
+  margin-top: 0;
+}
+
+#userPanel {
+  display: table-cell;
+  width: 65%;
+  padding-left: 5%;
+  padding-top: 30px;
+  vertical-align: top;
+}
+
+#deckPanel {
+  display: table-cell;
+  width: 30%;
+}
+
+.card {
+  list-style: none;
+  display: inline-block;
+  width: 80px;
+}
+
+.card img {
+  width: 100%;
+}
+
+.card button {
+  width: 100%;
+}
+
+.player {
+  border-top: 3px solid black;
+  display: inline-block;
+  margin-top: 10px;
+}
+
+.player h3 {
+  display: inline-block;
+}
+
+.drawCard {
+  display: inline-block;
+  float: right;
+  margin-top: 15px;
+}
+
+#deckPanel img {
+  width: 30%;
+}
+
+#deckPanel p {
+  width: 60%;
+  font-size: 20px;
+  margin-top: 10px;
+  text-align: center;
+}
+
+#newGame {
+  width: 60%;
+}
+
+#centerDeckPanel {
+  width: 100%;
+  margin-top: 50px;
+}
