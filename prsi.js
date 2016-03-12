@@ -56,9 +56,12 @@ function hand(deck, playerName){
   this.deck = deck;
   this.playerName = playerName;
   this.cards = [];
+  this.sevenOnMe = false;
 
   this.addCard = function() {
     this.cards.push(this.deck.giveCard());
+    var cardHandChanger = this.cards[this.cards.length - 1];
+    cardHandChanger.hand = this;
   }
 
   this.playCard = function(card) {
@@ -79,6 +82,8 @@ function hand(deck, playerName){
       this.deck.usedCards.push(card);
       // Sets up the rules to play next card
       this.deck.game.lastCardPlayed = card;
+      // Removes the owner of the card
+      card.hand = undefined;
 
       // Sets up the turn for the next player
       var indexOfThisPlayer = this.deck.game.players.indexOf(this);
@@ -86,6 +91,14 @@ function hand(deck, playerName){
 
       if (typeof this.deck.game.players[indexOfFuturePlayer] == 'undefined'){
         indexOfFuturePlayer = 0;
+      }
+
+      if (card.skipTurn == true) {
+        indexOfFuturePlayer++;
+
+        if (typeof this.deck.game.players[indexOfFuturePlayer] == 'undefined'){
+          indexOfFuturePlayer = 0;
+        }
       }
 
       this.deck.game.turn = this.deck.game.players[indexOfFuturePlayer];
@@ -110,8 +123,8 @@ function card(color, value, deck) {
   switch (this.value) {
     case "eso":
       this.ability = function() {
-
-        // It's eso, player can play another card
+        // Player that would play next, can't play
+        this.skipTurn = true;
       }
       break;
 
@@ -122,16 +135,24 @@ function card(color, value, deck) {
       break;
 
     case "7":
-      this.ability = function() { //lizne si 2x
-        this.cards.push(this.deck.giveCard());
-        this.cards.push(this.deck.giveCard());
+      this.ability = function() {
+        var owner =  this.hand;
+        var players = this.deck.game.players;
+        var indexOfOwner = players.indexOf(owner);
+        var nextPlayerIndex = indexOfOwner + 1;
+
+        if (typeof players[nextPlayerIndex] == 'undefined') {
+          nextPlayerIndex = 0;
+        }
+
+        var nextPlayer = players[nextPlayerIndex];
+        nextPlayer.addCard();
+        nextPlayer.addCard();
       }
       break;
 
     default:
       this.ability = function() {
-        // Sets the rules to play next card
-        this.deck.game.lastCardPlayed = this;
       }
   }
 }
