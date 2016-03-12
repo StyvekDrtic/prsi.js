@@ -1,24 +1,35 @@
-function game(playerNames) {
+function game() {
   this.lastCardPlayed = undefined;
-  this.playerNames = playerNames;
+  this.playerNames = [];
   this.players = [];
   this.deck = new deck(this);
-
-  for (var i = 0; i < this.playerNames.length; i++) {
-    this.players.push(new hand(this.deck, this.playerNames[i]));
-  }
 
   this.turn = this.players[0];
 
   this.startGame = function() {
+
+    // You can't start the game without the players
+    if (this.playerNames == []){
+      return false;
+    }
+
+    // It gives each player new hand
+    for (var i = 0; i < this.playerNames.length; i++) {
+      this.players.push(new hand(this.deck, this.playerNames[i]));
+    }
+
+    // It starts a new deck
     this.deck.newDeck();
+
+    // It gives each player 4 cards
     for (var i = 0; i < this.players.length; i++) {
       for (var a = 0; a < 4; a++){
         this.players[i].addCard();
       }
     }
-  }
 
+    return true;
+  }
 }
 
 function hand(deck, playerName){
