@@ -64,7 +64,37 @@ function hand(deck, playerName){
     cardHandChanger.hand = this;
   }
 
-  this.playCard = function(card) {
+  this.drawCard = function() {
+
+    // If it's not your turn
+    if (this != this.deck.game.turn) {
+      return false;
+    }
+
+    this.addCard();
+
+    // Sets up the turn for the next player
+    var indexOfThisPlayer = this.deck.game.players.indexOf(this);
+    var indexOfFuturePlayer = indexOfThisPlayer + 1;
+
+    if (typeof this.deck.game.players[indexOfFuturePlayer] == 'undefined'){
+      indexOfFuturePlayer = 0;
+    }
+
+    if (card.skipTurn == true) {
+      indexOfFuturePlayer++;
+
+      if (typeof this.deck.game.players[indexOfFuturePlayer] == 'undefined'){
+        indexOfFuturePlayer = 0;
+      }
+    }
+
+    this.deck.game.turn = this.deck.game.players[indexOfFuturePlayer];
+
+    return true;
+  }
+
+  this.playCard = function(card, color) {
 
     // If it's not your turn
     if (this != this.deck.game.turn) {
@@ -76,12 +106,12 @@ function hand(deck, playerName){
       // Removes the card from the hand
       var cardIndex = this.cards.indexOf(card);
       this.cards.splice(cardIndex, 1);
-      // Uses it's ability
-      card.ability();
       // Adds the card to usedCards
       this.deck.usedCards.push(card);
       // Sets up the rules to play next card
       this.deck.game.lastCardPlayed = card;
+      // Uses it's ability
+      card.ability(color);
       // Removes the owner of the card
       card.hand = undefined;
 
@@ -129,8 +159,8 @@ function card(color, value, deck) {
       break;
 
     case "top":
-      this.ability = function() {
-
+      this.ability = function(color) {
+        this.deck.game.lastCardPlayed.color = color;
       }
       break;
 
