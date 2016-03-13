@@ -18,7 +18,7 @@
     </div>
     <div id="deckPanel">
       <div id="centerDeckPanel">
-        <img src="card_img/heart_ober.png" id="lastCard">
+        <img src="card_img/deck.png" id="lastCard">
         <img src="card_img/deck.png">
         <button id="newGame">NEW GAME</button>
         <p id="turn"></p>
@@ -68,12 +68,6 @@
 
       function updateGame() {
 
-        // It updates #turn
-        if (hra.players.length != 0){
-          var playerName = hra.turn.playerName;
-          $("#turn").text(playerName+"'s turn");
-        }
-
         // It resets #userPanel
         $( "#players" ).html("");
 
@@ -111,8 +105,8 @@
             // For each card that player has in his hand
             // it creates html_string and concats it into cardsHtml string
             for (var i = 0; i < cards.length; i++) {
-              var card = cards[i];
-              var cardHtml = '<li class="card"><img src="card_img/'+card.image+'"><button>PLAY</button><p class="color">'+card.color+'</p><p class="value">'+card.value+'</p></li>';
+              var cardForConcat = cards[i];
+              var cardHtml = '<li class="card"><img src="card_img/'+cardForConcat.image+'"><button class="playCard" disabled>PLAY</button><p class="color">'+cardForConcat.color+'</p><p class="value">'+cardForConcat.value+'</p></li>';
               cardsHtml = cardsHtml + cardHtml;
             }
 
@@ -121,13 +115,76 @@
           }
         }
 
+        // Updating started game
+        if (hra.players.length != 0){
+
+          // It updates #turn
+          var playerName = hra.turn.playerName;
+          $("#turn").text(playerName+"'s turn");
+
+          // It allows player on his turn to play cards
+          for (var i = 0; i < $(".player").length; i++) {
+            if ($(".player").eq(i).find("h3").text() == playerName){
+              $(".player").eq(i).find("button").prop('disabled', false);
+            }
+          }
+
+          // It updates #lastCard
+          var lastCardPlayedImg = hra.lastCardPlayed.image;
+          $("#lastCard").attr("src", "card_img/"+lastCardPlayedImg);
+        }
+
         // Player can draw card
         $(".drawCard").click(function() {
           var playerName = $(this).prev().text();
           var playerIndex = hra.playerNames.indexOf(playerName);
           var playerHand = hra.players[playerIndex];
           playerHand.drawCard();
-          
+
+          updateGame();
+        });
+
+        // Player can play card
+        $(".playCard").click(function() {
+          var cardLi = $(this).parent();
+          var playerName = cardLi.parent().prev().prev().text();
+          var playerIndex = hra.playerNames.indexOf(playerName);
+          var playerHand = hra.players[playerIndex];
+
+          var cardColor = cardLi.find(".color").text();
+          var cardValue = cardLi.find(".value").text();
+          var cardObject = new card(cardColor, cardValue, playerHand.deck);
+
+          for (var i = 0; i < playerHand.cards.length; i++) {
+            var tester = 0;
+
+            if (playerHand.cards[i].color == cardObject.color) {
+              tester++;
+            }
+
+            if (playerHand.cards[i].value == cardObject.value) {
+              tester++;
+            }
+
+            if (tester == 2) {
+              var cardPlayer = playerHand.cards[i];
+            }
+          }
+
+          // If the card value is ober, player has to choose the new color
+          if (cardPlayer.value == "ober"){
+            var changeColor = prompt("Change color to 'heart', 'acorn', 'bell' or 'leaf'");
+
+            // Check for correct color spelling
+            if (changeColor == "heart" || changeColor == "acorn" || changeColor == "bell" || changeColor == "leaf") {
+              playerHand.playCard(cardPlayer, changeColor);
+            }
+          }
+
+          else {
+            playerHand.playCard(cardPlayer);
+          }
+
           updateGame();
         });
       }
