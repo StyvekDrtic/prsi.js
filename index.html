@@ -3,15 +3,35 @@
   <head>
     <meta charset="utf-8">
     <title></title>
+    <link rel="stylesheet" href="master.css" charset="utf-8">
   </head>
   <body>
-By <a href="//commons.wikimedia.org/w/index.php?title=User:Moddin&amp;action=edit&amp;redlink=1" class="new" title="User:Moddin (page does not exist)">Moddin</a> - <span class="int-own-work" lang="en">Own work</span>, <a href="http://creativecommons.org/licenses/by-sa/3.0" title="Creative Commons Attribution-Share Alike 3.0">CC BY-SA 3.0</a>, https://commons.wikimedia.org/w/index.php?curid=9561634
-
+    <div id="playerWon">
+      <h1>
+        Jirka is the WINNER!
+      </h1>
+      <button class="newGame">NEW GAME</button>
+    </div>
+    <div id="userPanel">
+      <div id="addPlayer">
+        <h3>ADD PLAYER</h3>
+        <input placeholder="NAME" type="text">
+        <button id="addPlayerButton">ADD</button>
+        <button id="startGameButton">START GAME</button>
+      </div>
+      <div id="players">
+      </div>
+    </div>
+    <div id="deckPanel">
+      <div id="centerDeckPanel">
+        <img src="card_img/deck.png" id="lastCard">
+        <img src="card_img/deck.png">
+        <button class="newGame">NEW GAME</button>
+        <p id="turn"></p>
+      </div>
+    </div>
     <script src="prsi.js"></script>
-    <script>
-      var hra = new game(["Petr", "Osvald"]);
-      hra.startGame();
-      var karta = hra.players[0].cards[0]
-    </script>
+    <script src="//code.jquery.com/jquery-1.12.0.min.js"></script>
+    <script src="app.js"></script>
   </body>
 </html>
