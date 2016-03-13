@@ -6,6 +6,12 @@
     <link rel="stylesheet" href="master.css" charset="utf-8">
   </head>
   <body>
+    <div id="playerWon">
+      <h1>
+        Jirka is the WINNER!
+      </h1>
+      <button id="newGame">NEW GAME</button>
+    </div>
     <div id="userPanel">
       <div id="addPlayer">
         <h3>ADD PLAYER</h3>
@@ -35,6 +41,7 @@
         $("#addPlayerButton").prop('disabled', false);
         $("#addPlayer input").prop('disabled', false);
         $("#startGameButton").prop('disabled', false);
+        $("#playerWon").css("display", "none");
         updateGame();
       });
 
@@ -102,6 +109,12 @@
 
             var cardsHtml = "";
 
+            // If player has no cards, he won!
+            if (cards.length == 0) {
+              $("#playerWon").css("display", "block");
+              $("#playerWon h1").text(playerName+" is the winner!");
+            }
+
             // For each card that player has in his hand
             // it creates html_string and concats it into cardsHtml string
             for (var i = 0; i < cards.length; i++) {
@@ -117,6 +130,12 @@
 
         // Updating started game
         if (hra.players.length != 0){
+
+          // If main deck is empty, recycle it
+          if (hra.deck.cards.length == 0){
+            hra.deck.recycleDeck();
+            updateGame();
+          }
 
           // It updates #turn
           var playerName = hra.turn.playerName;
