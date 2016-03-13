@@ -21,13 +21,22 @@
         <img src="card_img/heart_ober.png" id="lastCard">
         <img src="card_img/deck.png">
         <button id="newGame">NEW GAME</button>
-        <p>Jirka's turn</p>
+        <p id="turn"></p>
       </div>
     </div>
     <script src="prsi.js"></script>
     <script src="//code.jquery.com/jquery-1.12.0.min.js"></script>
     <script>
+
       var hra = new game();
+
+      $("#newGame").click(function() {
+        hra = new game();
+        $("#addPlayerButton").prop('disabled', false);
+        $("#addPlayer input").prop('disabled', false);
+        $("#startGameButton").prop('disabled', false);
+        updateGame();
+      });
 
       $("#addPlayerButton").click(function() {
         var name = $("#addPlayer input").val();
@@ -58,6 +67,12 @@
       });
 
       function updateGame() {
+
+        // It updates #turn
+        if (hra.players.length != 0){
+          var playerName = hra.turn.playerName;
+          $("#turn").text(playerName+"'s turn");
+        }
 
         // It resets #userPanel
         $( "#players" ).html("");
@@ -105,6 +120,16 @@
             $("#players").append('<div class="player"><h3>'+playerName+'</h3><button class="drawCard">DRAW</button><ul>'+cardsHtml+'</ul></div><br>');
           }
         }
+
+        // Player can draw card
+        $(".drawCard").click(function() {
+          var playerName = $(this).prev().text();
+          var playerIndex = hra.playerNames.indexOf(playerName);
+          var playerHand = hra.players[playerIndex];
+          playerHand.drawCard();
+          
+          updateGame();
+        });
       }
     </script>
   </body>
