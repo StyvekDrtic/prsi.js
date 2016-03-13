@@ -1,10 +1,7 @@
 function game() {
-  this.lastCardPlayed = undefined;
   this.playerNames = [];
   this.players = [];
   this.deck = new deck(this);
-
-  this.turn = this.players[0];
 
   this.startGame = function() {
 
@@ -21,12 +18,20 @@ function game() {
     // It starts a new deck
     this.deck.newDeck();
 
+    // Init lastCardPlayed
+    var lastCardPlayed = this.deck.giveCard()
+    this.lastCardPlayed = lastCardPlayed;
+    this.deck.usedCards.push(lastCardPlayed);
+
     // It gives each player 4 cards
     for (var i = 0; i < this.players.length; i++) {
       for (var a = 0; a < 4; a++){
         this.players[i].addCard();
       }
     }
+
+    // It starts a turn for player 1
+    this.turn = this.players[0];
 
     return true;
   }
@@ -173,10 +178,23 @@ function deck(game) {
   this.lastCard = undefined;
   this.game = game;
 
+  // Returns a card that has been deleted from deck.cards
   this.giveCard = function() {
     var topDeckCard = this.cards[0];
     this.cards.shift();
     return topDeckCard;
+  }
+
+  this.recycleDeck = function() {
+    var lastCard = this.usedCards[this.usedCards.length - 1];
+
+    // Removes lastCard from usedCards array
+    this.usedCards.splice(lastCard - 1, 1)
+    this.cards = shuffle(this.usedCards);
+    this.usedCards = [lastCard];
+
+    // Sets lastCard as lastCardPlayed (it's not necessary I guess :D)
+    this.game.lastCardPlayed = lastCard;
   }
 
   this.newDeck = function() {
