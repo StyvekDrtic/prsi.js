@@ -3,31 +3,42 @@
   <head>
     <meta charset="utf-8">
     <title></title>
+    <link href='https://fonts.googleapis.com/css?family=Roboto:400,100,500,700|Open+Sans' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="master.css" charset="utf-8">
   </head>
   <body>
+    <div class="playerWonBackground"><div></div></div>
     <div id="playerWon">
       <h1>
         Jirka is the WINNER!
       </h1>
       <button class="newGame">NEW GAME</button>
     </div>
-    <div id="userPanel">
-      <div id="addPlayer">
-        <h3>ADD PLAYER</h3>
-        <input placeholder="NAME" type="text">
-        <button id="addPlayerButton">ADD</button>
-        <button id="startGameButton">START GAME</button>
-      </div>
-      <div id="players">
-      </div>
+    <div id="header">
+      <h1>Prsi.js</h1>
     </div>
-    <div id="deckPanel">
-      <div id="centerDeckPanel">
-        <img src="card_img/deck.png" id="lastCard">
-        <img src="card_img/deck.png">
-        <button class="newGame">NEW GAME</button>
-        <p id="turn"></p>
+    <div id="content">
+      <div id="userPanel">
+        <div class="box addPlayer">
+          <div class="label">
+            <span>Add Player</span>
+          </div>
+          <input placeholder="NAME" type="text">
+          <button id="addPlayerButton">ADD</button>
+        </div>
+        <div id="players">
+        </div>
+      </div>
+      <div id="deckPanel">
+        <div class="box game">
+          <div class="label">
+            <span>GAME</span>
+          </div>
+          <button class="newGame">NEW GAME</button>
+          <button id="startGameButton">START GAME</button>
+          <p id="turn">Hi O_o</p>
+          <img src="card_img/deck.png" id="lastCard">
+        </div>
       </div>
     </div>
     <script src="prsi.js"></script>
