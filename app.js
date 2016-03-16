@@ -6,11 +6,12 @@ $(".newGame").click(function() {
   $("#addPlayer input").prop('disabled', false);
   $("#startGameButton").prop('disabled', false);
   $("#playerWon").css("display", "none");
+  $(".playerWonBackground").css("display", "none");
   updateGame();
 });
 
 $("#addPlayerButton").click(function() {
-  var name = $("#addPlayer input").val();
+  var name = $(".addPlayer input").val();
 
     if (name.length == 0){
       alert("Please set the name for the player");
@@ -19,7 +20,7 @@ $("#addPlayerButton").click(function() {
     else {
       hra.playerNames.push(name);
       updateGame();
-      $("#addPlayer input").val("");
+      $(".addPlayer input").val("");
     }
 });
 
@@ -31,7 +32,7 @@ $("#startGameButton").click(function() {
   else {
     hra.startGame();
     $("#addPlayerButton").prop('disabled', true);
-    $("#addPlayer input").prop('disabled', true);
+    $(".addPlayer input").prop('disabled', true);
     $("#startGameButton").prop('disabled', true);
     updateGame();
   }
@@ -49,7 +50,7 @@ function updateGame() {
 
     // If the game hasn't started yet
     if (hra.players.length == 0){
-      $("#players").append('<div class="player"><h3>'+playerName+'</h3></div><br>');
+      $("#players").append('<div class="box player"><div class="label"><span>'+playerName+'</span></div></div>');
     }
 
     // If the game has started
@@ -76,7 +77,9 @@ function updateGame() {
       // If player has no cards, he won!
       if (cards.length == 0) {
         $("#playerWon").css("display", "block");
+        $(".playerWonBackground").css("display", "block");
         $("#playerWon h1").text(playerName+" is the winner!");
+        window.scrollTo(x-coord, y-coord);
       }
 
       // For each card that player has in his hand
@@ -88,7 +91,7 @@ function updateGame() {
       }
 
       // It gets .player div into the page
-      $("#players").append('<div class="player"><h3>'+playerName+'</h3><button class="drawCard">DRAW</button><ul>'+cardsHtml+'</ul></div><br>');
+      $("#players").append('<div class="box player"><div class="label"><span>'+playerName+'</span></div><button class="drawCard">DRAW</button><ul>'+cardsHtml+'</ul></div>');
     }
   }
 
@@ -107,7 +110,7 @@ function updateGame() {
 
     // It allows player on his turn to play cards
     for (var i = 0; i < $(".player").length; i++) {
-      if ($(".player").eq(i).find("h3").text() == playerName){
+      if ($(".player").eq(i).find("span").text() == playerName){
         $(".player").eq(i).find("button").prop('disabled', false);
       }
     }
