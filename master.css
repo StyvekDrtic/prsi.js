@@ -1,14 +1,65 @@
 body {
-  display: table;
-  background: #1DA07B;
+  background: #fafafa;
   width: 100%;
   margin: 0;
+  font-family: 'Roboto', sans-serif;
 }
 
-button, input {
-  border: 3px solid #8C4616;
-  border-radius: 5px;
-  background: #AF451D;
+.color, .value {
+  display: none;
+}
+
+button {
+  background: #333;
+  padding: 10px;
+  -webkit-box-shadow: #999 0px 0px 5px;
+  box-shadow: #999 0px 0px 5px;
+  outline: none;
+  border: 0;
+  color: white;
+  border-radius: 3px;
+}
+
+input {
+  background: #333;
+  padding: 10px;
+  -webkit-box-shadow: #999 0px 0px 5px;
+  box-shadow: #999 0px 0px 5px;
+  outline: none;
+  border: 0;
+  color: white;
+  border-radius: 3px;
+}
+
+input:focus, button:hover {
+  background: #222;
+}
+
+button:active {
+  -webkit-box-shadow: 0;
+  box-shadow: 0;
+  position: relative;
+  top: 1px;
+}
+
+::-webkit-input-placeholder {
+   color: white;
+   text-align: center;
+}
+
+:-moz-placeholder { /* Firefox 18- */
+   color: white;
+   text-align: center;
+}
+
+::-moz-placeholder {  /* Firefox 19+ */
+   color: white;
+   text-align: center;
+}
+
+:-ms-input-placeholder {
+   color: white;
+   text-align: center;
 }
 
 ul {
@@ -16,68 +67,25 @@ ul {
   margin-top: 0;
 }
 
+#content {
+  text-align: center;
+  margin-top: 50px;
+  width: 100%;
+}
+
 #userPanel {
-  display: table-cell;
-  width: 65%;
-  padding-left: 5%;
-  padding-top: 30px;
+  display: inline-block;
+  width: 40%;
+  margin-right: 10%;
   vertical-align: top;
 }
 
 #deckPanel {
-  display: table-cell;
-  width: 30%;
-}
-
-.card {
-  list-style: none;
   display: inline-block;
-  width: 80px;
+  width: 35%;
 }
 
-.card img {
-  width: 100%;
-}
-
-.card button {
-  width: 100%;
-}
-
-.player {
-  border-top: 3px solid black;
-  display: inline-block;
-  margin-top: 10px;
-}
-
-.player h3 {
-  display: inline-block;
-}
-
-.drawCard {
-  display: inline-block;
-  float: right;
-  margin-top: 15px;
-}
-
-#deckPanel img {
-  width: 30%;
-}
-
-#deckPanel p {
-  width: 60%;
-  font-size: 20px;
-  margin-top: 10px;
-  text-align: center;
-}
-
-.newGame {
-  width: 60%;
-}
-
-#centerDeckPanel {
-  width: 100%;
-  margin-top: 50px;
-}
+/* Player Won */
 
 #playerWon {
   position: absolute;
@@ -104,4 +112,135 @@ ul {
   left: 50%;
   text-align: center;
   margin-left: -50px;
+}
+
+/* header */
+
+#header {
+  width: 100%;
+  background: white;
+  -webkit-box-shadow: #999 0px 0px 20px;
+  box-shadow: #999 0px 0px 20px;
+  height: 100px;
+}
+
+#header h1 {
+  margin: 0;
+  line-height: 100px;
+  margin-left: 60px;
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 400;
+}
+
+/* box */
+
+.box {
+  background: white;
+  border: 1px solid #333;
+  width: 100%;
+  border-radius: 3px;
+  vertical-align: top;
+  margin-bottom: 20px;
+  text-align: left;
+}
+
+.label {
+  background: #333;
+  color: white;
+  height: 30px
+}
+
+.label span {
+  font-weight: 00;
+  font-size: 18px;
+  line-height: 30px;
+  margin-left: 10px;
+  font-family: 'Open Sans', sans-serif;
+}
+
+/* Add player */
+
+.addPlayer input {
+  width: 35%;
+  margin: 15px 5%;
+}
+
+.addPlayer button {
+  width: 20%;
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+
+/* Player */
+
+.player {
+  display: inline-block;
+  margin-top: 10px;
+}
+
+.drawCard {
+  margin: 15px 5%;
+  margin-bottom: 0;
+}
+
+.player ul {
+  text-align: center;
+}
+
+.card {
+  list-style: none;
+  display: inline-block;
+  width: 88px;
+  margin: 25px 5px;
+}
+
+.card img {
+  width: 80px;
+  border: 1px solid #828282;
+  background: white;
+  padding: 3px;
+  border-radius: 9px;
+}
+
+.card button {
+  width: 100%;
+  margin-top: 5px;
+}
+
+.player hr {
+  margin: 0 auto;
+  margin-bottom: 10px;
+  width: 90%;
+}
+
+/* Game */
+
+.game button {
+  width: 100px;
+  margin-left: 5%;
+  margin-top: 15px;
+}
+
+#lastCard {
+  width: 30%;
+  padding: 0 35%;
+  margin-bottom: 20px;
+  margin-top: 10px;
+}
+
+.game p {
+  background: #333;
+  padding: 10px;
+  -webkit-box-shadow: #999 0px 0px 5px;
+  box-shadow: #999 0px 0px 5px;
+  border: 0;
+  color: white;
+  border-radius: 3px;
+  font-weight: 400;
+  font-size: 14px;
+  margin-left: 5%;
+  margin-right: 5%;
+  margin-top: 12px;
+  width: 80px;
+  display: inline-block;
 }
