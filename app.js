@@ -82,6 +82,54 @@ function updateGame() {
         window.scrollTo(x-coord, y-coord);
       }
 
+      // If player has to draw cards
+      console.log("pred");
+      if (hra.players[indexOfCurrentPlayer].cardsToDraw > 0) {
+        console.log("po");
+        var counter = false;
+        for (var i = 0; i < cards.length; i++) {
+          if (cards[i].value == "7") {
+            counter = true;
+            var card7Index = i;
+          }
+        }
+
+        // If player has card with value 7 in his hand
+        if (counter) {
+          var counterPermission = prompt("Do you want to draw "+hra.players[indexOfCurrentPlayer].cardsToDraw+" cards (1) or draw 0 cards for exchange for your card number 7 (2)? Type 1 or 2");
+
+          // Take the cards
+          if (counterPermission == 1) {
+            for (var i = 0; i < hra.players[indexOfCurrentPlayer].cardsToDraw; i++) {
+              hra.players[indexOfCurrentPlayer].addCard();
+            }
+            hra.players[indexOfCurrentPlayer].cardsToDraw = 0;
+          }
+
+          // Counter them
+          else if (counterPermission == 2) {
+            hra.players[indexOfCurrentPlayer].playCard(hra.players[indexOfCurrentPlayer].cards[card7Index]);
+          }
+        }
+
+        else {
+          for (var i = 0; i < hra.players[indexOfCurrentPlayer].cardsToDraw; i++) {
+            hra.players[indexOfCurrentPlayer].addCard();
+          }
+          hra.players[indexOfCurrentPlayer].cardsToDraw = 0;
+        }
+
+        // Updating an array of cards that player has in his hand
+        var cards = [];
+
+        for (var i = 0; i < hra.players[indexOfCurrentPlayer].cards.length; i++) {
+          cards.push(hra.players[indexOfCurrentPlayer].cards[i]);
+        }
+
+        // Additional update
+        var additionalUpdate = true;
+      }
+
       // For each card that player has in his hand
       // it creates html_string and concats it into cardsHtml string
       for (var i = 0; i < cards.length; i++) {
@@ -96,7 +144,7 @@ function updateGame() {
   }
 
   // Updating started game
-  if (hra.players.length != 0){
+  if (hra.players.length != 0) {
 
     // If main deck is empty, recycle it
     if (hra.deck.cards.length == 0){
@@ -118,6 +166,13 @@ function updateGame() {
     // It updates #lastCard
     var lastCardPlayedImg = hra.lastCardPlayed.image;
     $("#lastCard").attr("src", "card_img/"+lastCardPlayedImg);
+
+    // Additional Update (if you have to draw cards)
+    if (additionalUpdate) {
+      additionalUpdate = false;
+      console.log("update");
+      updateGame();
+    }
   }
 
   // Player can draw card
