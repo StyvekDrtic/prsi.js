@@ -42,6 +42,8 @@ function hand(deck, playerName){
   this.playerName = playerName;
   this.cards = [];
   this.sevenOnMe = false;
+  // Card 7
+  this.cardsToDraw = 0;
 
   this.addCard = function() {
     this.cards.push(this.deck.giveCard());
@@ -87,7 +89,7 @@ function hand(deck, playerName){
     }
 
     // If you are allowed to play this card
-    if (this.deck.game.lastCardPlayed == undefined || this.deck.game.lastCardPlayed.color == card.color || this.deck.game.lastCardPlayed.value == card.value) {
+    if (this.deck.game.lastCardPlayed == undefined || this.deck.game.lastCardPlayed.color == card.color || this.deck.game.lastCardPlayed.value == card.value || card.value == "ober") {
       // Removes the card from the hand
       var cardIndex = this.cards.indexOf(card);
       this.cards.splice(cardIndex, 1);
@@ -161,8 +163,8 @@ function card(color, value, deck) {
         }
 
         var nextPlayer = players[nextPlayerIndex];
-        nextPlayer.addCard();
-        nextPlayer.addCard();
+        nextPlayer.cardsToDraw = owner.cardsToDraw + 2;
+        owner.cardsToDraw = 0;
       }
       break;
 
